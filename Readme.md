@@ -318,13 +318,11 @@ Servicios
 
 # 🔮 Mejoras Futuras
 
-* Entrevistas asistidas por Inteligencia Artificial.
 * Sistema de reputación laboral.
 * Geolocalización de trabajadores.
 * Aplicación móvil.
 * Notificaciones en tiempo real.
 * Analítica avanzada de empleabilidad.
-* Motor de recomendación basado en IA.
 
 ---
 
