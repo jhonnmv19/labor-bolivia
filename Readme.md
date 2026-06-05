@@ -1,4 +1,4 @@
-# 🧑‍🔧 LaborBolivia🧑‍🔧
+# 🧑‍🔧 LaborBolivia👷‍♂️
 
 ## Plataforma Inteligente de Intermediación Laboral para Oficios Técnicos
 
