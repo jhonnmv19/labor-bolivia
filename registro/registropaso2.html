@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Labur Bolivia - Registro Paso 2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'], display: ['Sora', 'sans-serif'] },
+                    colors: {
+                        tierra: { 300: '#ecc06e', 500: '#d4842a', 600: '#b86920' },
+                        carbon: { 100: '#e8e8e8', 400: '#737373', 700: '#2d2d2d', 800: '#1f1f1f', 900: '#141414', 950: '#0a0a0a' }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Opcional: Estilo para la barra de desplazamiento personalizada si la usas -->
+    <style>
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #0a0a0a; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #2d2d2d; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #d4842a; }
+    </style>
+</head>
+<body class="bg-carbon-950 text-carbon-100 min-h-screen flex items-center justify-center p-4">
+
+    <div class="max-w-6xl w-full bg-carbon-900 rounded-2xl shadow-2xl overflow-hidden grid md:grid-cols-12 min-h-[650px] border border-carbon-800">
+        
+        <div class="md:col-span-4 bg-gradient-to-br from-carbon-950 to-tierra-900/40 p-8 flex flex-col justify-between border-r border-carbon-800">
+            <div>
+                <div class="flex items-center gap-2 mb-6">
+                    <span class="text-2xl font-display font-bold tracking-wider text-tierra-300">LABUR<span class="text-white">BOLIVIA</span></span>
+                </div>
+                <h2 class="text-xl font-display font-bold mb-4 text-white">Especialidades e Ingresos</h2>
+                <p class="text-sm text-carbon-400 leading-relaxed">
+                    Selecciona los oficios en los que destacas. Puedes marcar un **máximo de 2 opciones**. Si te equivocas, vuelve a presionar el oficio para quitarlo.
+                </p>
+            </div>
+            <div class="text-xs text-carbon-500">Configuración vinculada a especialidades_labur.</div>
+        </div>
+
+        <div class="md:col-span-8 p-8 flex flex-col justify-between">
+            
+            <div class="mb-6">
+                <div class="flex justify-between text-xs mb-2 text-carbon-400 font-display">
+                    <span class="text-carbon-500 line-through">1. Cuenta e Identidad</span>
+                    <span class="text-tierra-300 font-bold border-b border-tierra-500 pb-1">2. Profesión y Habilidades</span>
+                    <span>3. Evidencias de Trabajo</span>
+                </div>
+                <div class="w-full bg-carbon-800 h-1 rounded-full overflow-hidden">
+                    <div class="bg-tierra-500 h-full w-2/3 transition-all duration-500"></div>
+                </div>
+            </div>
+
+            <form id="form-paso2" class="space-y-6">
+                
+                <!-- AQUÍ INICIA TU NUEVO BLOQUE -->
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-carbon-400 mb-2">Buscador rápido de profesiones</label>
+                    <input type="text" id="input-filtro" placeholder="Escribe para buscar un oficio rápido (Ej: Albañil...)" class="w-full bg-carbon-950 border border-carbon-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-tierra-500">
+                </div>
+
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <h4 class="text-sm font-semibold text-white font-display">Listado General de Oficios Disponibles</h4>
+                        <span id="contador-seleccion" class="text-xs text-tierra-300 font-bold">Seleccionados: 0 / 2</span>
+                    </div>
+
+                    <div id="contenedor-oficios" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5 bg-carbon-950 p-3 rounded-xl border border-carbon-800 max-h-52 overflow-y-auto custom-scrollbar">
+                        <div class="col-span-full text-center py-6 text-xs text-carbon-500 animate-pulse">
+                            Cargando catálogo de oficios desde Supabase...
+                        </div>
+                    </div>
+                </div>
+                <!-- AQUÍ TERMINA TU NUEVO BLOQUE -->
+
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-carbon-400 mb-1">Años de Experiencia</label>
+                        <input type="number" id="anios_experiencia" min="0" value="1" required class="w-full bg-carbon-950 border border-carbon-700 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-tierra-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-carbon-400 mb-1">Pretensión (Mensual Bs.)</label>
+                        <input type="number" id="pretension_salarial" placeholder="Ej. 3500" required class="w-full bg-carbon-950 border border-carbon-700 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-tierra-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-carbon-400 mb-1">Modalidad Preferida</label>
+                        <select id="modalidad_preferida" class="w-full bg-carbon-950 border border-carbon-700 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-tierra-500">
+                            <option value="Presential">Presencial</option>
+                            <option value="Hibrido">Híbrido</option>
+                            <option value="Remoto">Remoto</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center pt-4 border-t border-carbon-800">
+                    <button type="button" onclick="window.location.href='registropaso1.html'" class="text-sm text-carbon-400 hover:text-white transition">Atrás</button>
+                    <button type="submit" class="bg-tierra-500 text-white font-semibold text-sm px-6 py-2 rounded-lg shadow-lg hover:bg-tierra-600 transition">Siguiente Paso</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="../js/registro_paso2.js"></script>
+</body>
+</html>

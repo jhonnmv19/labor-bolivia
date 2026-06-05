@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LaborBolivia - Recomendaciones IA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Sora', 'sans-serif'],
+                    },
+                    colors: {
+                        tierra: {
+                            50: '#fdf8f0', 100: '#faefd8', 200: '#f4dba8', 300: '#ecc06e',
+                            400: '#e4a040', 500: '#d4842a', 600: '#b86920', 700: '#96511d',
+                            800: '#7a421f', 900: '#65371d',
+                        },
+                        carbon: {
+                            50: '#f9fafb', 100: '#f3f4f6', 200: '#e5e7eb', 300: '#d1d5db',
+                            400: '#9ca3af', 500: '#6b7280', 600: '#4b5563', 700: '#374151',
+                            800: '#1f2937', 900: '#111827', 950: '#0a0a0a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { display: none; }
+        * { -ms-overflow-style: none; scrollbar-width: none; }
+        .nav-item-active { background: linear-gradient(135deg, #b86920, #96511d); }
+        .sidebar-link { transition: all 0.2s ease; }
+        .sidebar-link:hover { background: rgba(184, 105, 32, 0.12); }
+    </style>
+</head>
+<body class="font-sans bg-carbon-50 overflow-x-hidden">
+
+<div id="app-shell" class="flex min-h-screen">
+
+    <aside id="sidebar" class="hidden lg:flex flex-col w-64 xl:w-72 bg-carbon-950 fixed left-0 top-0 bottom-0 z-30">
+        <div class="flex items-center gap-3 px-6 py-6 border-b border-carbon-900">
+            <div class="w-9 h-9 rounded-xl bg-tierra-600 flex items-center justify-center flex-shrink-0">
+                <i class="fa-solid fa-bolt text-white text-base"></i>
+            </div>
+            <span class="font-display font-black text-white text-xl tracking-tight">Labor<span class="text-tierra-400">Bolivia</span></span>
+        </div>
+
+        <nav class="flex-1 px-3 py-5 space-y-1 overflow-y-auto">
+            <div class="px-3 py-2 mb-1">
+                <span class="text-carbon-600 text-xs font-semibold uppercase tracking-widest">Panel Trabajador</span>
+            </div>
+            
+            <a href="dashboard_trabajador.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl group text-carbon-400 hover:text-white">
+                <div class="w-8 h-8 rounded-lg bg-carbon-900 flex items-center justify-center flex-shrink-0 group-hover:bg-tierra-900/60 transition-colors">
+                    <i class="fa-solid fa-gauge text-carbon-400 text-sm group-hover:text-tierra-400 transition-colors"></i>
+                </div>
+                <span class="text-sm font-medium">Dashboard</span>
+            </a>
+
+            <a href="#" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl nav-item-active group">
+                <div class="w-8 h-8 rounded-lg bg-white/15 flex items-center justify-center flex-shrink-0">
+                    <i class="fa-solid fa-brain text-white text-sm"></i>
+                </div>
+                <span class="text-white text-sm font-semibold">Recomendaciones IA</span>
+            </a>
+
+            <a href="alertas.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl group text-carbon-400 hover:text-white">
+                <div class="w-8 h-8 rounded-lg bg-carbon-900 flex items-center justify-center flex-shrink-0 group-hover:bg-tierra-900/60 transition-colors">
+                    <i class="fa-solid fa-bell text-carbon-400 text-sm group-hover:text-tierra-400 transition-colors"></i>
+                </div>
+                <span class="text-sm font-medium">Alertas de Empleo</span>
+            </a>
+        </nav>
+
+        <div class="px-4 py-5 border-t border-carbon-900 bg-carbon-900/40">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-tierra-700 flex items-center justify-center text-white font-bold text-sm">JA</div>
+                <div class="min-w-0 flex-1">
+                    <p class="text-white text-xs font-bold truncate" id="perfil-nombre">Cargando...</p>
+                    <p class="text-carbon-500 text-[10px] truncate" id="perfil-ubicacion">Cargando...</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <div class="flex-1 lg:ml-64 xl:ml-72 flex flex-col bg-white min-h-screen">
+
+        <header class="sticky top-0 z-20 bg-white border-b border-carbon-100 px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-xl bg-tierra-100 flex items-center justify-center">
+                    <i class="fa-solid fa-brain text-tierra-600 text-sm"></i>
+                </div>
+                <div>
+                    <h1 class="text-carbon-900 text-base font-bold leading-tight">Recomendaciones IA</h1>
+                    <p class="text-carbon-500 text-xs">Encuentra tu próxima oportunidad ideal analizada por nuestro algoritmo.</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <button id="btn-cerrar-sesion" class="text-xs font-semibold text-red-600 bg-red-50 hover:bg-red-100 border border-red-200 rounded-xl px-3 py-2 transition-colors">
+                    <i class="fa-solid fa-right-from-bracket mr-1"></i> Cerrar Sesión
+                </button>
+            </div>
+        </header>
+
+        <main class="flex-1 px-4 sm:px-6 lg:px-8 py-6 flex flex-col xl:flex-row gap-6">
+            
+            <div class="w-full xl:w-72 flex-shrink-0 bg-carbon-50 rounded-2xl border border-carbon-200 p-5 space-y-4 h-fit sticky top-24">
+                <div class="flex items-center justify-between border-b border-carbon-200 pb-3">
+                    <span class="text-carbon-900 font-bold text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-sliders text-tierra-600"></i> Filtros Avanzados
+                    </span>
+                    <button id="btn-limpiar-filtros" class="text-tierra-600 hover:text-tierra-700 text-xs font-semibold">Limpiar</button>
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-bold text-carbon-700 uppercase mb-1.5 tracking-wider">Buscar Puesto o Empresa</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-carbon-400 text-xs"></i>
+                        <input type="text" id="filtro-buscar" placeholder="Ej. Desarrollador, Administrador..." 
+                            class="w-full text-xs bg-white border border-carbon-200 rounded-xl pl-9 pr-3 py-2.5 text-carbon-800 focus:outline-none focus:border-tierra-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-bold text-carbon-700 uppercase mb-1.5 tracking-wider">Ubicación (Bolivia)</label>
+                    <select id="filtro-ubicacion" class="w-full text-xs bg-white border border-carbon-200 rounded-xl px-3 py-2.5 text-carbon-800 focus:outline-none focus:border-tierra-500">
+                        <option value="TODOS">Todos los departamentos</option>
+                        <option value="Cochabamba">Cochabamba</option>
+                        <option value="Santa Cruz">Santa Cruz</option>
+                        <option value="La Paz">La Paz</option>
+                        <option value="Oruro">Oruro</option>
+                        <option value="Potosí">Potosí</option>
+                        <option value="Tarija">Tarija</option>
+                        <option value="Chuquisaca">Chuquisaca</option>
+                        <option value="Beni">Beni</option>
+                        <option value="Pando">Pando</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-bold text-carbon-700 uppercase mb-1.5 tracking-wider">Compatibilidad Mínima</label>
+                    <select id="filtro-compatibilidad" class="w-full text-xs bg-white border border-carbon-200 rounded-xl px-3 py-2.5 text-carbon-800 focus:outline-none focus:border-tierra-500">
+                        <option value="0">Cualquier afinidad</option>
+                        <option value="90">Excelente Match (+90%)</option>
+                        <option value="80">Buen Match (+80%)</option>
+                        <option value="70">Match Aceptable (+70%)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-bold text-carbon-700 uppercase mb-1.5 tracking-wider">Sector Económico</label>
+                    <select id="filtro-sector" class="w-full text-xs bg-white border border-carbon-200 rounded-xl px-3 py-2.5 text-carbon-800 focus:outline-none focus:border-tierra-500">
+                        <option value="TODOS">Todos los sectores</option>
+                        <option value="Tecnología">Tecnología / Sistemas</option>
+                        <option value="Transporte y Turismo">Transporte y Turismo</option>
+                        <option value="Administración">Administración / Oficina</option>
+                        <option value="Comercial">Comercial / Ventas</option>
+                        <option value="Logística">Logística / Transporte</option>
+                        <option value="Salud">Salud / Estética</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-bold text-carbon-700 uppercase mb-1.5 tracking-wider">Tipo de Contrato</label>
+                    <div id="grupo-tipo-trabajo" class="space-y-1.5 text-xs text-carbon-600">
+                        <label class="flex items-center gap-2"><input type="checkbox" value="Tiempo Completo" class="accent-tierra-600"> Tiempo Completo</label>
+                        <label class="flex items-center gap-2"><input type="checkbox" value="Medio Tiempo" class="accent-tierra-600"> Medio Tiempo</label>
+                        <label class="flex items-center gap-2"><input type="checkbox" value="Por Proyecto" class="accent-tierra-600"> Por Proyecto</label>
+                        <label class="flex items-center gap-2"><input type="checkbox" value="Freelance" class="accent-tierra-600"> Freelance</label>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-bold text-carbon-700 uppercase mb-1.5 tracking-wider">Modalidad</label>
+                    <div id="grupo-modalidad" class="space-y-1.5 text-xs text-carbon-600">
+                        <label class="flex items-center gap-2"><input type="checkbox" value="Presencial" class="accent-tierra-600"> Presencial</label>
+                        <label class="flex items-center gap-2"><input type="checkbox" value="Híbrido" class="accent-tierra-600"> Híbrido</label>
+                        <label class="flex items-center gap-2"><input type="checkbox" value="Remoto" class="accent-tierra-600"> Remoto</label>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-bold text-carbon-700 uppercase mb-1.5 tracking-wider">Pretensión Salarial Mínima (Bs.)</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <span class="text-[10px] text-carbon-400">Min (Bs.)</span>
+                            <input type="number" id="filtro-salario-min" placeholder="0" 
+                                class="w-full text-xs bg-white border border-carbon-200 rounded-xl px-2 py-2 text-carbon-800 focus:outline-none focus:border-tierra-500">
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-carbon-400">Max (Bs.)</span>
+                            <input type="number" id="filtro-salario-max" placeholder="20000" 
+                                class="w-full text-xs bg-white border border-carbon-200 rounded-xl px-2 py-2 text-carbon-800 focus:outline-none focus:border-tierra-500">
+                        </div>
+                    </div>
+                </div>
+
+                <button id="btn-aplicar-filtros" class="w-full bg-gradient-to-r from-tierra-500 to-tierra-600 hover:from-tierra-600 hover:to-tierra-700 text-white font-bold text-xs py-3 rounded-xl transition-colors shadow-sm flex items-center justify-center gap-2 mt-2">
+                    <i class="fa-solid fa-filter"></i> Filtrar Oportunidades
+                </button>
+            </div>
+
+            <div class="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between bg-carbon-100 p-3 rounded-xl">
+                        <span class="text-xs text-carbon-600 font-medium">Resultados ordenados por: <strong class="text-carbon-900">Mayor Match IA</strong></span>
+                    </div>
+
+                    <div id="contenedor-matches" class="space-y-4">
+                        <div class="text-center py-8 text-carbon-400 text-xs">
+                            <i class="fa-solid fa-spinner fa-spin mr-2"></i> Analizando compatibilidades...
+                        </div>
+                    </div>
+                </div>
+
+                <div id="vista-detalle-vacante" class="bg-carbon-50 rounded-2xl border border-carbon-200 p-6 space-y-6 h-fit sticky top-24 hidden md:block">
+                    <div class="text-center py-12 text-carbon-400 text-xs">
+                        Selecciona una vacante de la lista para ver el análisis de perfil completo.
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+</div>
+
+<script type="module" src="../js/ofertas.js"></script>
+</body>
+</html>

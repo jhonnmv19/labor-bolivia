@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Labur Bolivia - Iniciar Sesión</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Sora', 'sans-serif'],
+                    },
+                    colors: {
+                        tierra: { 50: '#fdf8f0', 100: '#faefd8', 200: '#f4dba8', 300: '#ecc06e', 400: '#e4a040', 500: '#d4842a', 600: '#b86920', 700: '#96511d', 800: '#7a421f', 900: '#65371d' },
+                        carbon: { 50: '#f5f5f5', 100: '#e8e8e8', 200: '#d0d0d0', 300: '#a8a8a8', 400: '#737373', 500: '#525252', 600: '#3d3d3d', 700: '#2d2d2d', 800: '#1f1f1f', 900: '#141414', 950: '#0a0a0a' },
+                        accent: { 400: '#f59e0b', 500: '#d97706' }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-carbon-950 text-carbon-100 min-h-screen flex items-center justify-center p-4 font-sans">
+
+    <div class="max-w-4xl w-full bg-carbon-900 rounded-2xl shadow-2xl overflow-hidden grid md:grid-cols-12 min-h-[500px] border border-carbon-800">
+        
+        <div class="md:col-span-5 bg-gradient-to-br from-carbon-950 to-tierra-900/40 p-8 flex flex-col justify-between border-r border-carbon-800">
+            <div>
+                <div class="flex items-center gap-2 mb-6">
+                    <span class="text-2xl font-display font-bold tracking-wider text-tierra-300">LABUR<span class="text-white">BOLIVIA</span></span>
+                </div>
+                <h2 class="text-xl font-display font-bold mb-4 text-white">¡Qué bueno verte de nuevo!</h2>
+                <p class="text-sm text-carbon-400 leading-relaxed">
+                    Ingresa a tu cuenta para gestionar tus postulaciones, revisar ofertas laborales o contactar con el personal técnico calificado de Bolivia.
+                </p>
+            </div>
+            <div class="hidden md:block">
+                <p class="text-xs text-carbon-500">© 2026 Labur Bolivia. Conectando talento real.</p>
+            </div>
+        </div>
+
+        <div class="md:col-span-7 p-8 flex flex-col justify-center">
+            
+            <div class="mb-6">
+                <h3 class="text-xl font-bold text-white font-display">Iniciar Sesión</h3>
+                <p class="text-xs text-carbon-400 mt-1">Ingresa tus credenciales de acceso</p>
+            </div>
+
+            <form id="login-form" class="space-y-5">
+                
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-carbon-400 mb-1">Correo Electrónico</label>
+                    <input type="email" id="email" required placeholder="tu@correo.com" class="w-full bg-carbon-950 border border-carbon-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-tierra-500 placeholder-carbon-600">
+                </div>
+
+                <div>
+                    <div class="flex justify-between items-center mb-1">
+                        <label class="block text-xs font-semibold uppercase text-carbon-400">Contraseña</label>
+                        <a href="#" class="text-xs text-tierra-400 hover:text-tierra-300 transition">¿Olvidaste tu contraseña?</a>
+                    </div>
+                    <input type="password" id="password" required placeholder="••••••••" class="w-full bg-carbon-950 border border-carbon-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-tierra-500 placeholder-carbon-600">
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit" class="w-full bg-tierra-600 hover:bg-tierra-500 text-white font-semibold text-sm py-2.5 rounded-lg transition dynamic-btn shadow-lg shadow-tierra-900/20">
+                        Ingresar
+                    </button>
+                </div>
+
+                <div class="text-center pt-4 border-t border-carbon-800">
+                    <p class="text-sm text-carbon-400">
+                        ¿No tienes una cuenta aún? 
+                        <a href="registro/registropaso1.html" class="text-tierra-400 hover:text-tierra-300 font-semibold transition ml-1">Regístrate aquí</a>
+                    </p>
+                </div>
+            </form>
+            
+        </div>
+    </div>
+
+    <script type="module" src="js/login.js"></script>
+</body>
+</html>

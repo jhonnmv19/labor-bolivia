@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LaborBolivia - Panel de Administración</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        ::-webkit-scrollbar { display: none; }
+        * { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .bg-sidebar-negro { background-color: #000000 !important; }
+        .text-bolivia-amarillo { color: #f59e0b !important; }
+        .border-rayo-amarillo { border-color: #f59e0b !important; }
+        
+        .nav-item-active { background: linear-gradient(135deg, #3b0764, #6b21a8); }
+        .sidebar-link { transition: all 0.2s ease; }
+        .sidebar-link:hover { background: rgba(139, 92, 246, 0.15); }
+        .pulse-dot { animation: pulseDot 2s ease-in-out infinite; }
+        @keyframes pulseDot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.3); } }
+        .kpi-card { transition: all 0.2s ease; }
+        .kpi-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+        .user-row { transition: all 0.15s ease; }
+        .user-row:hover { background: #f8fafc; }
+        
+        .modal-backdrop { background-color: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px); }
+        .hidden-pane { display: none; }
+    </style>
+</head>
+<body class="font-sans bg-slate-50 overflow-x-hidden">
+
+<div id="app-shell" class="flex">
+
+    <aside id="sidebar" class="hidden lg:flex flex-col w-64 xl:w-72 bg-sidebar-negro min-h-screen fixed left-0 top-0 bottom-0 z-30 border-r border-zinc-900">
+        <div id="sidebar-logo" class="flex items-center gap-3 px-6 py-6 border-b border-zinc-900">
+            <div class="w-9 h-9 rounded-xl bg-transparent border-2 border-rayo-amarillo flex items-center justify-center flex-shrink-0">
+                <i class="fa-solid fa-bolt text-white text-base"></i>
+            </div>
+            <span class="font-display font-bold text-white text-xl tracking-tight">Labor<span class="text-bolivia-amarillo">Bolivia</span></span>
+        </div>
+
+        <nav id="sidebar-nav" class="flex-1 px-3 py-5 space-y-1 overflow-y-auto">
+            <div class="px-3 py-2 mb-1">
+                <span class="text-zinc-600 text-xs font-semibold uppercase tracking-widest">Gestión Central</span>
+            </div>
+            
+            <a href="#" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl nav-item-active text-white font-medium">
+                <div class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
+                    <i class="fa-solid fa-chart-pie text-white text-sm"></i>
+                </div>
+                <span class="text-sm">Dashboard Admin</span>
+            </a>
+
+            <a href="verificaciones.html" id="nav-verificaciones" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-zinc-400 hover:text-white font-medium">
+                <div class="w-8 h-8 rounded-lg bg-zinc-900 flex items-center justify-center flex-shrink-0 border border-zinc-800">
+                    <i class="fa-solid fa-user-check text-zinc-400 text-sm"></i>
+                </div>
+                <span class="text-sm">Gestión de Verificaciones</span>
+                <div id="badge-verificaciones-lateral" class="ml-auto bg-amber-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">0</div>
+            </a>
+        </nav>
+
+        <div id="sidebar-footer" class="px-4 py-5 border-t border-zinc-900 bg-black/50">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-purple-700 flex items-center justify-center text-white font-bold text-sm" id="avatar-iniciales">
+                    --
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-white text-sm font-semibold truncate admin-nombre-texto">Cargando...</p>
+                    <p class="text-zinc-500 text-xs truncate admin-rol-texto">Cargando Rol...</p>
+                </div>
+                <button id="btn-logout" class="w-7 h-7 rounded-lg bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 flex items-center justify-center transition-colors flex-shrink-0" title="Cerrar Sesión">
+                    <i class="fa-solid fa-right-from-bracket text-zinc-400 text-xs"></i>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <div id="main-content" class="flex-1 lg:ml-64 xl:ml-72 flex flex-col min-h-screen">
+
+        <header id="header" class="sticky top-0 z-20 bg-white border-b border-slate-200 px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-purple-100 flex items-center justify-center">
+                    <i class="fa-solid fa-shield-halved text-purple-700 text-sm"></i>
+                </div>
+                <div>
+                    <h1 class="text-slate-900 text-base font-bold leading-tight">Panel Administrativo</h1>
+                    <div class="flex items-center gap-1.5">
+                        <div class="w-1.5 h-1.5 rounded-full bg-green-500 pulse-dot"></div>
+                        <p class="text-slate-500 text-xs">Sesión activa de control global</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3 ml-auto">
+                <div class="text-right hidden sm:block">
+                    <p class="text-slate-800 text-sm font-semibold leading-tight top-admin-nombre">Cargando...</p>
+                    <span class="text-purple-600 text-xs font-medium admin-rol-texto">Cargando...</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-1 p-4 sm:p-6 lg:p-8 space-y-6">
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                <div class="kpi-card bg-white p-5 rounded-2xl border border-slate-200 flex items-center justify-between">
+                    <div>
+                        <p class="text-slate-400 text-xs font-medium uppercase tracking-wider">Total Cuentas</p>
+                        <h3 id="kpi-total" class="text-slate-900 text-2xl font-bold mt-1">...</h3>
+                    </div>
+                    <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-lg"><i class="fa-solid fa-users"></i></div>
+                </div>
+                <div class="kpi-card bg-white p-5 rounded-2xl border border-slate-200 flex items-center justify-between">
+                    <div>
+                        <p class="text-slate-400 text-xs font-medium uppercase tracking-wider">Trabajadores</p>
+                        <h3 id="kpi-trabajadores" class="text-slate-900 text-2xl font-bold mt-1">...</h3>
+                    </div>
+                    <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-500 flex items-center justify-center text-lg"><i class="fa-solid fa-user-tie"></i></div>
+                </div>
+                <div class="kpi-card bg-white p-5 rounded-2xl border border-slate-200 flex items-center justify-between">
+                    <div>
+                        <p class="text-slate-400 text-xs font-medium uppercase tracking-wider">Empleadores</p>
+                        <h3 id="kpi-empleadores" class="text-slate-900 text-2xl font-bold mt-1">...</h3>
+                    </div>
+                    <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-lg"><i class="fa-solid fa-building"></i></div>
+                </div>
+                <div class="kpi-card bg-white p-5 rounded-2xl border border-slate-200 flex items-center justify-between">
+                    <div>
+                        <p class="text-slate-400 text-xs font-medium uppercase tracking-wider">Pendientes</p>
+                        <h3 id="kpi-verificaciones" class="text-slate-900 text-2xl font-bold mt-1">0</h3>
+                    </div>
+                    <div class="w-10 h-10 rounded-xl bg-orange-50 text-orange-500 flex items-center justify-center text-lg"><i class="fa-solid fa-clock"></i></div>
+                </div>
+                <div class="kpi-card bg-white p-5 rounded-2xl border border-slate-200 flex items-center justify-between">
+                    <div>
+                        <p class="text-slate-400 text-xs font-medium uppercase tracking-wider">Incidentes</p>
+                        <h3 id="kpi-incidentes" class="text-slate-900 text-2xl font-bold mt-1">0</h3>
+                    </div>
+                    <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-lg"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 xl:grid-cols-4 gap-6 items-start">
+                
+                <div class="xl:col-span-3 bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+                    <div class="p-5 border-b border-slate-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 bg-slate-50/50">
+                        <div>
+                            <h2 class="text-slate-900 font-bold text-base">Gestión de Cuentas y Distribución</h2>
+                            <p class="text-slate-400 text-xs mt-0.5">Monitoreo, búsqueda avanzada y control de estados de usuarios</p>
+                        </div>
+                        
+                        <div class="flex flex-col sm:flex-row items-center gap-3">
+                            <div class="relative w-full sm:w-60">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                    <i class="fa-solid fa-magnifying-glass text-slate-400 text-xs"></i>
+                                </span>
+                                <input type="text" id="input-buscador-usuarios" placeholder="Buscar por ID, nombre, tel..." class="w-full pl-9 pr-4 py-1.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-700 placeholder-slate-400 focus:outline-none focus:border-purple-500 transition-colors">
+                            </div>
+
+                            <select id="filtro-estado-usuarios" class="border border-slate-200 rounded-xl p-1.5 text-xs font-semibold bg-white text-slate-700 outline-none w-full sm:w-auto">
+                                <option value="Todos">Todos los Estados</option>
+                                <option value="Activo">Activo</option>
+                                <option value="Pendiente">Pendiente</option>
+                                <option value="Suspendido">Suspendido</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse px-6">
+                            <thead>
+                                <tr class="border-b border-slate-200 text-slate-400 text-xxs font-bold uppercase tracking-wider bg-slate-50/70">
+                                    <th class="py-3 px-4">UID</th>
+                                    <th class="py-3">Usuario</th>
+                                    <th class="py-3">Contacto (WhatsApp)</th>
+                                    <th class="py-3">Correo Electrónico</th>
+                                    <th class="py-3">Rol asignado</th>
+                                    <th class="py-3">Estado</th>
+                                    <th class="py-3 text-right px-4">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabla-usuarios-body" class="divide-y divide-slate-100 px-4">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="bg-white border border-slate-200 p-4 rounded-2xl space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-slate-900 font-bold text-sm">Logs de Accesos</h3>
+                            <i class="fa-solid fa-clock-rotate-left text-slate-400 text-xs"></i>
+                        </div>
+                        <div id="lista-logs-ip" class="space-y-2">
+                            </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+</div>
+
+<script type="module" src="../js/admin.js"></script>
+</body>
+</html>
